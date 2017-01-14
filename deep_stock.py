@@ -92,8 +92,6 @@ def read_raw_data(files):
 
 # generate train and test dataset from csv files
 def generate_dataset(csv_dir, look_back, predict_len, interval_train=1, interval_test=1):
-    files = glob.glob(os.path.join(csv_dir,"*.csv"))
-    files.sort()        
     print('=== Start generate train and test dataset from csv files ===')
     train_fileX = ('trainDataX_interval%d.npy' % interval_train)
     train_fileY = ('trainDataY_interval%d.npy' % interval_train)
@@ -105,6 +103,8 @@ def generate_dataset(csv_dir, look_back, predict_len, interval_train=1, interval
         testX = np.load(test_fileX)
         testY = np.load(test_fileY)
     else:
+        files = glob.glob(os.path.join(csv_dir,"*.csv"))
+        files.sort()            
         Train,Test = read_raw_data(files)
         trainX,trainY = generate_all_train(Train,look_back,predict_len,interval_train)
         trainX, trainY = normalize_input(trainX,trainY)
